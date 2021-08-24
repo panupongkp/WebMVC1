@@ -16,14 +16,15 @@ namespace WebMVC1.Services
         private static readonly byte[] _EncryptionIV = new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 };
         //private static readonly byte[] _EncryptionIV = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
         private const int iterations = 1042;
+        private static readonly string fileExtension = "pdf";
 
         public ResponseModel UploadFile()
         {
             ResponseModel response = new ResponseModel();
             //string filename = $"{Directory.GetCurrentDirectory()}/template/Data/TestEncrypt.docx";
             //string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/TestEncrypt.docx";
-            string filename = $"{Directory.GetCurrentDirectory()}/template/Data/Encrypt.jpg";
-            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/Encrypt.jpg";
+            string filename = $"{Directory.GetCurrentDirectory()}/template/Data/Encrypt." + fileExtension;
+            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/Encrypt." + fileExtension;
 
             var ms = new MemoryStream();
             using (var fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite))
@@ -72,8 +73,8 @@ namespace WebMVC1.Services
             ResponseModel response = new ResponseModel();
             //string filename = $"{Directory.GetCurrentDirectory()}/template/Data/TestDecrypt.docx";
             //string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/TestDecrypt.docx";
-            string filename = $"{Directory.GetCurrentDirectory()}/template/Data/Decrypt.jpg";
-            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/Decrypt.jpg";
+            string filename = $"{Directory.GetCurrentDirectory()}/template/Data/Decrypt." + fileExtension;
+            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/Decrypt." + fileExtension;
 
             try
             {

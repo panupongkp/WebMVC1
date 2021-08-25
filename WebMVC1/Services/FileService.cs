@@ -13,6 +13,7 @@ namespace WebMVC1.Services
     {
         private static readonly string _EncryptionKey = "FWins";
         //private static readonly string _EncryptionIV = "FWG";
+        //private static readonly byte[] _EncryptionIV = Encoding.ASCII.GetBytes("FWGinsurance");
         private static readonly byte[] _EncryptionIV = new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 };
         //private static readonly byte[] _EncryptionIV = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
         private const int iterations = 1042;
@@ -24,7 +25,7 @@ namespace WebMVC1.Services
             //string filename = $"{Directory.GetCurrentDirectory()}/template/Data/TestEncrypt.docx";
             //string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/TestEncrypt.docx";
             string filename = $"{Directory.GetCurrentDirectory()}/template/Data/Encrypt." + fileExtension;
-            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/Encrypt." + fileExtension;
+            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/Encrypt_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "." + fileExtension;
 
             var ms = new MemoryStream();
             using (var fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite))
@@ -36,6 +37,7 @@ namespace WebMVC1.Services
             {
                 var res = Encrypt(ms.ToArray());
                 fs.Write(res, 0, res.Length);
+                fs.Close();
             }
 
             //UnicodeEncoding byteConverter = new UnicodeEncoding();
@@ -74,7 +76,7 @@ namespace WebMVC1.Services
             //string filename = $"{Directory.GetCurrentDirectory()}/template/Data/TestDecrypt.docx";
             //string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/TestDecrypt.docx";
             string filename = $"{Directory.GetCurrentDirectory()}/template/Data/Decrypt." + fileExtension;
-            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/Decrypt." + fileExtension;
+            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/Decrypt_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "." + fileExtension;
 
             try
             {
@@ -88,6 +90,7 @@ namespace WebMVC1.Services
                 {
                     var res = Decrypt(ms.ToArray());
                     fs.Write(res, 0, res.Length);
+                    fs.Close();
                 }
 
                 response.status = 200;

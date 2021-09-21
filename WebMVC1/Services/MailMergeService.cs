@@ -497,146 +497,146 @@ namespace WebMVC1.Services
             return response;
         }
 
-        //public ResponseModel GetMailMerge()
-        //{
-        //    ResponseModel response = new ResponseModel();
-        //    string filename = $"{Directory.GetCurrentDirectory()}/template/MailmergeTest3.docx"; //@"D:\MailmergeTest3.docx";
-        //    //string csvPath = @"D:\MailMergeData.csv";
-        //    string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/" + Path.GetFileNameWithoutExtension(filename) + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(filename);
-        //    //string fileResult = filename.Substring(0, filename.LastIndexOf('.')) + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(filename);
-        //    //File.Copy(filename, fileResult);
-        //    var ms = new MemoryStream();
-        //    FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite);
-        //    fs.CopyTo(ms);
-        //    try
-        //    {
-        //        //WordprocessingDocument doc = WordprocessingDocument.Create(filename, WordprocessingDocumentType.Document);
-        //        WordprocessingDocument doc = WordprocessingDocument.Open(ms, true);
-        //        if (doc !=null)
-        //        //using (WordprocessingDocument doc = WordprocessingDocument.Open(fileResult, true))
-        //        {
-        //            //StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream());
-        //            //var docText = sr.ReadToEnd();
-        //            //using (StreamWriter sw = new StreamWriter($"{Directory.GetCurrentDirectory()}/template/Result/mailTxt.txt"))
-        //            //{
-        //            //    Body body = doc.MainDocumentPart.Document.Body;
-        //            //    string docText = "";
-        //            //    foreach (OpenXmlElement cBody in body.ChildElements)
-        //            //    {
-        //            //        docText = cBody.InnerText; //docText += cBody.InnerText + @"\r\n";
-        //            //        sw.WriteLine(docText);
-        //            //    }
-        //            //}
-        //            //var docText = body.InnerText.ToString();
-        //            //File.WriteAllText($"{Directory.GetCurrentDirectory()}/template/Result/mailTxt.txt", docText);
+        public ResponseModel GetMailMergeReplace()
+        {
+            ResponseModel response = new ResponseModel();
+            string filename = $"{Directory.GetCurrentDirectory()}/template/MailmergeTest3.docx"; //@"D:\MailmergeTest3.docx";
+            //string csvPath = @"D:\MailMergeData.csv";
+            string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/" + Path.GetFileNameWithoutExtension(filename) + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(filename);
+            //string fileResult = filename.Substring(0, filename.LastIndexOf('.')) + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(filename);
+            //File.Copy(filename, fileResult);
+            var ms = new MemoryStream();
+            FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite);
+            fs.CopyTo(ms);
+            try
+            {
+                //WordprocessingDocument doc = WordprocessingDocument.Create(filename, WordprocessingDocumentType.Document);
+                WordprocessingDocument doc = WordprocessingDocument.Open(ms, true);
+                if (doc != null)
+                //using (WordprocessingDocument doc = WordprocessingDocument.Open(fileResult, true))
+                {
+                    //StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream());
+                    //var docText = sr.ReadToEnd();
+                    //using (StreamWriter sw = new StreamWriter($"{Directory.GetCurrentDirectory()}/template/Result/mailTxt.txt"))
+                    //{
+                    //    Body body = doc.MainDocumentPart.Document.Body;
+                    //    string docText = "";
+                    //    foreach (OpenXmlElement cBody in body.ChildElements)
+                    //    {
+                    //        docText = cBody.InnerText; //docText += cBody.InnerText + @"\r\n";
+                    //        sw.WriteLine(docText);
+                    //    }
+                    //}
+                    //var docText = body.InnerText.ToString();
+                    //File.WriteAllText($"{Directory.GetCurrentDirectory()}/template/Result/mailTxt.txt", docText);
 
-        //            Body body = doc.MainDocumentPart.Document.Body;
-        //            string docText = "";
-        //            foreach (OpenXmlElement cBody in body.ChildElements)
-        //            {
-        //                docText += cBody.InnerText + @"\r\n";
-        //            }
+                    Body body = doc.MainDocumentPart.Document.Body;
+                    string docText = "";
+                    foreach (OpenXmlElement cBody in body.ChildElements)
+                    {
+                        docText += cBody.InnerText + @"\r\n";
+                    }
 
-        //            //DocxToText dtt = new DocxToText(ms);
-        //            //string docxText = dtt.ExtractText();
+                    //DocxToText dtt = new DocxToText(ms);
+                    //string docxText = dtt.ExtractText();
 
-        //            //MailMerge
-        //            var mergeFields = doc.GetMergeFields().ToList();                
-        //            foreach (var mergeField in mergeFields)
-        //            {
-        //                if (mergeField.InnerText.ToLower().Contains("first name"))
-        //                {
-        //                    mergeField.ReplaceWithText(MailMergeData.FirstName);
-        //                }
-        //                else if (mergeField.InnerText.ToLower().Contains("last name"))
-        //                {
-        //                    mergeField.ReplaceWithText(MailMergeData.LastName);
-        //                }
-        //                //mergeField.ReplaceWithText(MailMergeData.FirstName);
-        //            }
-        //            //doc.GetMergeFields("First Name").ReplaceWithText(MailMergeData.FirstName);
-        //            //doc.GetMergeFields("Last Name").ReplaceWithText(MailMergeData.LastName);
-        //            //doc.MainDocumentPart.Document.Save();
-        //            //Settings settings = doc.MainDocumentPart.DocumentSettingsPart.Settings;
-        //            //OpenXmlElement openXmlElement = null;
+                    //MailMerge
+                    var mergeFields = doc.GetMergeFields().ToList();
+                    foreach (var mergeField in mergeFields)
+                    {
+                        if (mergeField.InnerText.ToLower().Contains("first name"))
+                        {
+                            mergeField.ReplaceWithText(MailMergeData.FirstName);
+                        }
+                        else if (mergeField.InnerText.ToLower().Contains("last name"))
+                        {
+                            mergeField.ReplaceWithText(MailMergeData.LastName);
+                        }
+                        //mergeField.ReplaceWithText(MailMergeData.FirstName);
+                    }
+                    //doc.GetMergeFields("First Name").ReplaceWithText(MailMergeData.FirstName);
+                    //doc.GetMergeFields("Last Name").ReplaceWithText(MailMergeData.LastName);
+                    //doc.MainDocumentPart.Document.Save();
+                    //Settings settings = doc.MainDocumentPart.DocumentSettingsPart.Settings;
+                    //OpenXmlElement openXmlElement = null;
 
-        //            //foreach (OpenXmlElement element in settings.ChildElements)
-        //            //{
-        //            //    if (element is MailMerge mailMerge)
-        //            //    {
-        //            //        //mailMerge.ViewMergedData.Val = 0;
-        //            //        //mailMerge.Query.Val = "SELECT * FROM " + csvPath;
-        //            //        mailMerge.DataSourceObject.Remove();
-        //            //    }
-        //            //    else if (element is AttachedTemplate)
-        //            //    {
-        //            //        openXmlElement = element;
-        //            //    }
-        //            //}
-        //            //if (openXmlElement != null)
-        //            //{
-        //            //    openXmlElement.Remove();
-        //            //}
-        //            //doc.SaveAs(@"D:\MailMergeResultTest.docx");
+                    //foreach (OpenXmlElement element in settings.ChildElements)
+                    //{
+                    //    if (element is MailMerge mailMerge)
+                    //    {
+                    //        //mailMerge.ViewMergedData.Val = 0;
+                    //        //mailMerge.Query.Val = "SELECT * FROM " + csvPath;
+                    //        mailMerge.DataSourceObject.Remove();
+                    //    }
+                    //    else if (element is AttachedTemplate)
+                    //    {
+                    //        openXmlElement = element;
+                    //    }
+                    //}
+                    //if (openXmlElement != null)
+                    //{
+                    //    openXmlElement.Remove();
+                    //}
+                    //doc.SaveAs(@"D:\MailMergeResultTest.docx");
 
-        //            //Response Model
-        //            //response.status = 200;
-        //            //MailMergeModel mmModel = new MailMergeModel
-        //            //{
-        //            //    innerText = doc.MainDocumentPart.Document.Body.InnerText,
-        //            //    innerXML = doc.MainDocumentPart.Document.Body.InnerXml,
-        //            //    outerXML = doc.MainDocumentPart.Document.Body.OuterXml
-        //            //};
+                    //Response Model
+                    //response.status = 200;
+                    //MailMergeModel mmModel = new MailMergeModel
+                    //{
+                    //    innerText = doc.MainDocumentPart.Document.Body.InnerText,
+                    //    innerXML = doc.MainDocumentPart.Document.Body.InnerXml,
+                    //    outerXML = doc.MainDocumentPart.Document.Body.OuterXml
+                    //};
 
-        //            //response.data = mmModel;
+                    //response.data = mmModel;
 
-        //            //Create new docx.
-        //            //string html = @"<div><p>&nbsp; <strong>แบบ อค./ทส.1.67</strong></p><p><strong>&nbsp; </strong><strong><u>เอกสารแนบท้ายว่าด้วยค่าใช้จ่ายในการบรรเทาความเสียหาย</u></strong></p><p><strong><u>&nbsp; (Sue and Labour)</u></strong></p><p><strong>&nbsp; </strong></p><p><strong>&nbsp; </strong>เป็นที่ตกลงว่า ถ้าข้อความใดในเอกสารนี้ขัดหรือแย้งกับข้อความที่ปรากฏในกรมธรรม์ประกันภัยนี้ ให้ใช้ข้อความตามที่ปรากฏในเอกสารนี้บังคับแทน</p><p>&nbsp; การประกันภัยนี้ได้ขยายความคุ้มครองถึงค่าใช้จ่ายอันสมควรต่างๆที่เกิดขึ้นในการใช้ความพยายามเพื่อกู้คืน ป้องกันหรือรักษาทรัพย์สินที่เอาประกันภัย เพื่อลดความเสียหายที่ได้รับความคุ้มครองหรือเพื่อดำเนินคดีในนามของผู้เอาประกันภัย ในการเรียกร้องค่าสินไหมทดแทนหรือความเสียหายจากบุคคลอื่นสำหรับความเสียหายที่เกิดขึ้น ทั้งนี้ ค่าใช้จ่ายดังกล่าวนี้จะต้องได้รับความเห็นชอบจากผู้รับประกันภัยก่อน</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; จำกัดวงเงินคุ้มครองสูงสุดไม่เกิน 100,000.00 บาท ต่ออุบัติเหตุแต่ละครั้ง และตลอดระยะเวลาเอาประกันภัย</p><p>&nbsp; ค่าใช้จ่ายนี้เป็นส่วนเพิ่มเติมจากจำนวนเงินเอาประกันภัยที่ระบุไว้ในกรมธรรม์ประกันภัย</p><p>&nbsp; <span>ส่วนเงื่อนไขและข้อความอื่นๆ ในกรมธรรม์ประกันภัยนี้คงใช้บังคับตามเดิม</span></p><p>&nbsp; </p></div><br>";
-        //            //var word = HtmlToWord(html);
+                    //Create new docx.
+                    //string html = @"<div><p>&nbsp; <strong>แบบ อค./ทส.1.67</strong></p><p><strong>&nbsp; </strong><strong><u>เอกสารแนบท้ายว่าด้วยค่าใช้จ่ายในการบรรเทาความเสียหาย</u></strong></p><p><strong><u>&nbsp; (Sue and Labour)</u></strong></p><p><strong>&nbsp; </strong></p><p><strong>&nbsp; </strong>เป็นที่ตกลงว่า ถ้าข้อความใดในเอกสารนี้ขัดหรือแย้งกับข้อความที่ปรากฏในกรมธรรม์ประกันภัยนี้ ให้ใช้ข้อความตามที่ปรากฏในเอกสารนี้บังคับแทน</p><p>&nbsp; การประกันภัยนี้ได้ขยายความคุ้มครองถึงค่าใช้จ่ายอันสมควรต่างๆที่เกิดขึ้นในการใช้ความพยายามเพื่อกู้คืน ป้องกันหรือรักษาทรัพย์สินที่เอาประกันภัย เพื่อลดความเสียหายที่ได้รับความคุ้มครองหรือเพื่อดำเนินคดีในนามของผู้เอาประกันภัย ในการเรียกร้องค่าสินไหมทดแทนหรือความเสียหายจากบุคคลอื่นสำหรับความเสียหายที่เกิดขึ้น ทั้งนี้ ค่าใช้จ่ายดังกล่าวนี้จะต้องได้รับความเห็นชอบจากผู้รับประกันภัยก่อน</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; จำกัดวงเงินคุ้มครองสูงสุดไม่เกิน 100,000.00 บาท ต่ออุบัติเหตุแต่ละครั้ง และตลอดระยะเวลาเอาประกันภัย</p><p>&nbsp; ค่าใช้จ่ายนี้เป็นส่วนเพิ่มเติมจากจำนวนเงินเอาประกันภัยที่ระบุไว้ในกรมธรรม์ประกันภัย</p><p>&nbsp; <span>ส่วนเงื่อนไขและข้อความอื่นๆ ในกรมธรรม์ประกันภัยนี้คงใช้บังคับตามเดิม</span></p><p>&nbsp; </p></div><br>";
+                    //var word = HtmlToWord(html);
 
-        //            //    mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document();
-        //            //    Body body = mainPart.Document.AppendChild(new Body());
-        //            //    Paragraph para = body.AppendChild(new Paragraph());
-        //            //    Run run = para.AppendChild(new Run());
+                    //    mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document();
+                    //    Body body = mainPart.Document.AppendChild(new Body());
+                    //    Paragraph para = body.AppendChild(new Paragraph());
+                    //    Run run = para.AppendChild(new Run());
 
-        //            //    run.AppendChild(new Text("Hello world"));
-        //            doc.Save();
+                    //    run.AppendChild(new Text("Hello world"));
+                    doc.Save();
 
-        //        }
+                }
 
-        //        //Response Model
-        //        response.status = 200;
-        //        MailMergeModel mmModel = new MailMergeModel
-        //        {
-        //            innerText = doc.MainDocumentPart.Document.Body.InnerText,
-        //            innerXML = doc.MainDocumentPart.Document.Body.InnerXml,
-        //            outerXML = doc.MainDocumentPart.Document.Body.OuterXml,
-        //            bytesdata = ms.ToArray()
-        //        };
+                //Response Model
+                response.status = 200;
+                MailMergeModel mmModel = new MailMergeModel
+                {
+                    innerText = doc.MainDocumentPart.Document.Body.InnerText,
+                    innerXML = doc.MainDocumentPart.Document.Body.InnerXml,
+                    outerXML = doc.MainDocumentPart.Document.Body.OuterXml,
+                    bytesdata = ms.ToArray()
+                };
 
-        //        response.data = mmModel;
+                response.data = mmModel;
 
-        //        doc.Close();
-        //        fs.Close();
+                doc.Close();
+                fs.Close();
 
-        //        //Writefile
-        //        ms.Seek(0, SeekOrigin.Begin);
-        //        using (FileStream savefs = new FileStream(fileResult, FileMode.OpenOrCreate))
-        //        {
-        //            ms.CopyTo(savefs);
-        //            savefs.Flush();
-        //        }
-        //        ms.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        fs.Close();
-        //        ms.Close();
-        //        throw new Exception(ex.Message + ex?.InnerException.ToString());
-        //    }
+                //Writefile
+                ms.Seek(0, SeekOrigin.Begin);
+                using (FileStream savefs = new FileStream(fileResult, FileMode.OpenOrCreate))
+                {
+                    ms.CopyTo(savefs);
+                    savefs.Flush();
+                }
+                ms.Close();
+            }
+            catch (Exception ex)
+            {
+                fs.Close();
+                ms.Close();
+                throw new Exception(ex.Message + ex?.InnerException.ToString());
+            }
 
-        //    return response;
-        //}
+            return response;
+        }
 
         public byte[] HtmlToWord(String html)
         {

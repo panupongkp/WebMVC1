@@ -24,7 +24,10 @@
     <PackageReference Include="RtfPipe" Version="2.0.7677.4303" />
     <PackageReference Include="sautinsoft.htmltortf" Version="8.1.7.13" />
     <PackageReference Include="sautinsoft.rtftohtml" Version="7.6.6.17" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.1" />
   </ItemGroup>
 
 </Project>

@@ -99,7 +99,7 @@ namespace WebMVC1.Controllers
         }
 
         [HttpGet]
-        [Route("GetMailMergeText")]
+        [Route("GetMailMergeReplace")]
         public IActionResult GetMailMergeReplace()
         {
             IActionResult response = null;

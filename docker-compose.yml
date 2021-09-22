@@ -1,11 +1,8 @@
-version: '3.9'
+version: '3.4'
+
 services:
-  webmvc1-api:
-    image: ${DOCKER_REGISTRY-}webmvc1-api
+  webmvc1:
+    image: ${DOCKER_REGISTRY-}webmvc1
     build:
-      #context: webmvc1-api/
-      #dockerfile: WebMVC1/Dockerfile
-    ports:
-      - "44000:80"
-      #- "44001:443"
-    container_name: webmvc1-api
+      context: .
+      dockerfile: WebMVC1/Dockerfile

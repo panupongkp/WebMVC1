@@ -99,6 +99,25 @@ namespace WebMVC1.Controllers
         }
 
         [HttpGet]
+        [Route("GetMailMergeReplace")]
+        public IActionResult GetMailMergeReplace()
+        {
+            IActionResult response = null;
+
+            try
+            {
+                var result = new { res = _mailMergeService.GetMailMergeReplace() };
+                response = Wrap.ResponseOK(result);
+            }
+            catch (Exception ex)
+            {
+                response = Wrap.ResponseError(null, ex.Message);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
         [Route("UploadMailMerge")]
         public IActionResult UploadMailMerge()
         {

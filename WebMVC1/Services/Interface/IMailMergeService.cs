@@ -12,6 +12,7 @@ namespace WebMVC1.Services
         ResponseModel UploadMailMerge();
         ResponseModel GetMailMergeFile();
         ResponseModel GetMailMergePowerTools();
+        ResponseModel GetMailMergeReplace();
         ResponseModel GetMailMergeText();
     }
 }

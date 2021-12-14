@@ -45,7 +45,7 @@ namespace WebMVC1
             #region DBContext
             //services.AddControllersWithViews();
             services.AddDbContext<FWContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MSSQLConnectionString")));
-            //services.AddDbContext<FWContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MSSQLConnectionString"), 
+            //services.AddDbContext<FWContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MSSQLConnectionString"),
             //    builder => {
             //        builder.EnableRetryOnFailure(10, TimeSpan.FromSeconds(30), null);
             //}));
@@ -56,7 +56,7 @@ namespace WebMVC1
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebMVC1", Version = "v1" });
             });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,9 +91,11 @@ namespace WebMVC1
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebMVC1 v1"));
+                //app.UseSwagger();
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebMVC1 v1"));
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebMVC1 v1"));
 
             app.UseHttpsRedirection();
 

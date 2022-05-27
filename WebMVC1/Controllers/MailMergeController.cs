@@ -21,7 +21,7 @@ namespace WebMVC1.Controllers
             _logger = logger;
             _mailMergeService = mailMergeService;
         }
-        
+
         [HttpGet]
         [Route("GetMailMerge")]
         public IActionResult GetMailMerge()
@@ -107,6 +107,25 @@ namespace WebMVC1.Controllers
             try
             {
                 var result = new { res = _mailMergeService.GetMailMergeReplace() };
+                response = Wrap.ResponseOK(result);
+            }
+            catch (Exception ex)
+            {
+                response = Wrap.ResponseError(null, ex.Message);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("GetMailMergeBuild")]
+        public IActionResult GetMailMergeBuild()
+        {
+            IActionResult response = null;
+
+            try
+            {
+                var result = new { res = _mailMergeService.BuildWordMerge() };
                 response = Wrap.ResponseOK(result);
             }
             catch (Exception ex)

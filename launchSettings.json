@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "webmvc1": {
+      "commandName": "DockerCompose",
+      "serviceActions": {
+        "webmvc1": "StartDebugging",
+        "dmsapi": "StartWithoutDebugging",
+        "elastic": "StartWithoutDebugging"
+      },
+      "commandVersion": "1.0"
+    }
+  }
+}

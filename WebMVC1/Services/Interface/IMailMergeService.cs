@@ -14,5 +14,6 @@ namespace WebMVC1.Services
         ResponseModel GetMailMergePowerTools();
         ResponseModel GetMailMergeReplace();
         ResponseModel GetMailMergeText();
+        ResponseModel BuildWordMerge();
     }
 }

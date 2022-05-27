@@ -56,6 +56,24 @@ namespace WebMVC1.Services
             return response;
         }
 
+        public ResponseModel ShortenURL(string url)
+        {
+            ResponseModel response = new ResponseModel();
+            if (!string.IsNullOrEmpty(url))
+            {
+                response.status = 200;
+                response.success = true;
+                response.message = "Success";
+                response.data = GetShortUrl(url);
+            }
+            return response;
+        }
+
+        private string GetShortUrl(string longUrl)
+        {
+            return "";
+        }
+
         private string Lib_ConvertHTMLToRTF(string html)
         {
             var rtf = "";
@@ -73,7 +91,7 @@ namespace WebMVC1.Services
             {
                 rtf = ex.Message + ex?.InnerException?.Message;
             }
-            
+
             return rtf;
         }
 
@@ -116,7 +134,7 @@ namespace WebMVC1.Services
             {
                 throw new Exception(ex.Message + ex?.InnerException?.Message);
             }
-           
+
             return html;
         }
     }

@@ -16,6 +16,7 @@ using OpenXmlHelpers.Word;
 using System.Xml.Linq;
 using WebMVC1.DBContext;
 using OpenXmlPowerTools;
+using System.Data;
 
 namespace WebMVC1.Services
 {
@@ -105,7 +106,7 @@ namespace WebMVC1.Services
             var f1 = _mailMergeContext.mailMergeEntities.Where(w => w.fileName == "Clause001").Select(s => s.fileData).FirstOrDefault();
             var f2 = _mailMergeContext.mailMergeEntities.Where(w => w.fileName == "Clause002").Select(s => s.fileData).FirstOrDefault();
             var listByte = new List<byte[]> { f1, f2 };
-            
+
             //var ms = new MemoryStream();
             //ms.Write(fT, 0, fT.Length);
             //ms.Position = 0;
@@ -131,7 +132,7 @@ namespace WebMVC1.Services
                         mss.Close();
                     }
                 }
-                    //doc.Save();
+                //doc.Save();
                 //}
                 //StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream());
                 //var docText = sr.ReadToEnd();
@@ -218,7 +219,7 @@ namespace WebMVC1.Services
                             string altChunkId = mainPart.GetIdOfPart(chunk);
 
                             chunk.FeedData(mss);
-                            
+
                             AltChunk altChunk = new AltChunk { Id = altChunkId };
                             //altChunk.Id = altChunkId;
                             mainPart.Document.Body.AppendChild(altChunk);
@@ -282,19 +283,29 @@ namespace WebMVC1.Services
             ResponseModel response = new ResponseModel();
             string filename = $"{Directory.GetCurrentDirectory()}/template/Template001.docx";
             string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/" + Path.GetFileNameWithoutExtension(filename) + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(filename);
-            var fT = _mailMergeContext.mailMergeEntities.Where(w => w.fileName == "Template001").Select(s => s.fileData).FirstOrDefault();
-            var f1 = _mailMergeContext.mailMergeEntities.Where(w => w.fileName == "Clause001").Select(s => s.fileData).FirstOrDefault();
-            var f2 = _mailMergeContext.mailMergeEntities.Where(w => w.fileName == "Clause002").Select(s => s.fileData).FirstOrDefault();
-            var listByte = new List<byte[]> { f1, f2 };
-            //FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite);
+            //var fT = _mailMergeContext.mailMergeEntities.Where(w => w.fileName == "Template001").Select(s => s.fileData).FirstOrDefault();
+            //var f1 = _mailMergeContext.mailMergeEntities.Where(w => w.fileName == "Clause001").Select(s => s.fileData).FirstOrDefault();
+            //var f2 = _mailMergeContext.mailMergeEntities.Where(w => w.fileName == "Clause002").Select(s => s.fileData).FirstOrDefault();
+            //var listByte = new List<byte[]> { f1, f2 };
+            ////FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite);
+            //var ms = new MemoryStream();
+            //ms.Write(fT, 0, fT.Length);
+            //ms.Position = 0;
+
+            string[] fileSources = new string[] { $"{Directory.GetCurrentDirectory()}/template/Data/Clause001.docx", $"{Directory.GetCurrentDirectory()}/template/Data/Clause002.docx" };
+            var fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite);
             var ms = new MemoryStream();
-            ms.Write(fT, 0, fT.Length);
+            fs.CopyTo(ms);
             ms.Position = 0;
+
+            var f1 = File.ReadAllBytes(fileSources[0]);// new FileStream(fileSources[0], FileMode.Open, FileAccess.ReadWrite);
+            var f2 = File.ReadAllBytes(fileSources[1]);// new FileStream(fileSources[1], FileMode.Open, FileAccess.ReadWrite);
+            var listByte = new List<byte[]> { f1, f2 };
 
             var msRes = new MemoryStream();
             try
             {
-                //WordprocessingDocument doc = WordprocessingDocument.Open(ms, true);
+                //var doct = WordprocessingDocument.Open(ms, true);
                 WmlDocument docM = new WmlDocument("main", ms, true);
                 if (docM != null)
                 {
@@ -500,7 +511,8 @@ namespace WebMVC1.Services
         public ResponseModel GetMailMergeReplace()
         {
             ResponseModel response = new ResponseModel();
-            string filename = $"{Directory.GetCurrentDirectory()}/template/MailmergeTest3.docx"; //@"D:\MailmergeTest3.docx";
+            string filename = $"{Directory.GetCurrentDirectory()}/template/devexmailmerge.docx"; //@"D:\MailmergeTest3.docx";
+            //string filename = $"{Directory.GetCurrentDirectory()}/template/MailmergeTest3.docx"; //@"D:\MailmergeTest3.docx";
             //string csvPath = @"D:\MailMergeData.csv";
             string fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/" + Path.GetFileNameWithoutExtension(filename) + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(filename);
             //string fileResult = filename.Substring(0, filename.LastIndexOf('.')) + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(filename);
@@ -673,6 +685,139 @@ namespace WebMVC1.Services
                 File.WriteAllBytes(filenamertf, generatedDocument.ToArray());
 
                 return generatedDocument.ToArray();
+            }
+        }
+
+        public ResponseModel BuildWordMerge()
+        {
+            var response = new ResponseModel();
+            try
+            {
+                var filename = $"{Directory.GetCurrentDirectory()}/template/DevExTestWordMerge3.docx";
+                //var filename = $"{Directory.GetCurrentDirectory()}/template/devexmailmerge.docx";
+                var fileResult = $"{Directory.GetCurrentDirectory()}/template/Result/" + Path.GetFileNameWithoutExtension(filename) + "_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(filename);
+                var fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite);
+                var memoryTemplate = new MemoryStream();
+                fs.CopyTo(memoryTemplate);
+                //fs.Close();
+
+                var msResponse = new MemoryStream();
+                var sources = new List<Source>();
+                var dsSource = new DataSet();
+
+                //Demo
+                var dtSource = dsSource.Tables.Add("Table1");
+                dtSource.Columns.Add("H1");
+                dtSource.Columns.Add("H2");
+                dtSource.Columns.Add("docbody");
+                var drSource = dtSource.NewRow();
+                drSource["H1"] = "Freewill Solutins";
+                drSource["H2"] = "Insurances test data";
+                drSource["BODY1"] = "Insurances test data bodddddd";
+
+                //                drSource["docbody"] = @"แบบ อค./ทส.1.78
+                //เอกสารแนบท้ายว่าด้วยเรื่องการแปลงสกุลเงิน
+                //(Currency Conversion Clause)
+                //	เป็นที่ตกลงว่า ถ้าข้อความใดในเอกสารนี้ขัดหรือแย้งกับข้อความที่ปรากฎในกรมธรรม์ประกันภัยนี้ให้ใช้ข้อความตามที่ปรากฎในเอกสารนี้บังคับแทน
+                //	หากความเสียหายที่เกิดขึ้นซึ่งจะได้รับการชดใช้ค่าเสียหายโดยกรมธรรม์นี้ และเกิดขึ้นในสกุลเงินอื่นนอกเหนือจากสกุลเงินที่กำหนดไว้ในกรมธรรม์ ให้ใช้อัตราแลกเปลี่ยนเพื่อการชดใช้ค่าเสียหายตามสกุลเงินที่ระบุในกรมธรรม์ประกันภัย ณ …………………………………..หรือ ณ เวลาที่ทำการจ่ายค่าสินไหมทดแทนสำหรับความสูญหายหรือเสียหายนั้น
+
+                //หมายเหตุ	:	ให้ระบุวันที่จะใช้อัตราแลกเปลี่ยนลงในช่องว่าง อาทิเช่น
+                //			1) วันที่ตกลงการชดใช้ค่าสินไหมทดแทน
+                //			2) วันที่จะชดใช้ค่าสินไหมทดแทน
+                //			3) วันที่เกิดอุบัติเหตุ
+                //เป็นต้น
+
+                //	หากมิได้มีการระบุวันดังกล่าวให้ถือวันที่ตกลงการชดใช้ค่าสินไหมทดแทนเป็นวันที่จะใช้อัตราแลกเปลี่ยน
+                //";
+                var fileSource2 = $"{Directory.GetCurrentDirectory()}/template/Data/Clause002.docx";
+                var fs2 = new FileStream(fileSource2, FileMode.Open, FileAccess.ReadWrite);
+                var msSource2 = new MemoryStream();
+                fs2.CopyTo(msSource2);
+                //fs.Close();
+                var docxBinary = msSource2.ToArray();
+                drSource["docbody"] = msSource2.ToArray();
+                dtSource.Rows.Add(drSource);
+
+                for (int i = 1; i <= dsSource.Tables.Count; i++)
+                {
+                    var fileResultName = "merge" + i.ToString() + ".docx";
+                    var dtProcess = dsSource.Tables["Table" + i.ToString()];
+                    //var docxBinary = (byte[])dtProcess.Rows[0]["docbody"];//!= DBNull.Value ? (byte[])dtProcess.Rows[0]["docbody"] : null;
+
+                    var sourceDoc = new List<Source>();
+                    var msDoc = new MemoryStream();
+
+                    memoryTemplate.Seek(0, SeekOrigin.Begin);
+                    var doc = WordprocessingDocument.Open(memoryTemplate, true);
+                    if (doc != null)
+                    {
+                        /// MailMerge replace field
+                        var mergeFields = doc.GetMergeFields().ToList();
+
+                        foreach (var mergeField in mergeFields)
+                        {
+                            var field = mergeField.InnerText.Replace("MERGEFIELD", "").Replace(@"\", "").Replace(@"""", "").Trim();
+                            //var field = mergeField.InnerText.Replace(@" MERGEFIELD """, "").Replace(@"""\m", "").Replace("MERGEFIELD", "").Replace(@"\", "").Replace(@"""", "").Trim();
+                            //if (mergeField.InnerText.Replace(@" MERGEFIELD """, "").Replace(@"""\m", "").Trim() == "docbody")
+                            if (field == "docbody")
+                            {
+                                mergeField.Remove();
+                            }
+                            else
+                            {
+                                //var field = mergeField.InnerText.Replace(@" MERGEFIELD """, "").Replace(@"""\m", "").Trim();
+                                mergeField.ReplaceWithText(dtProcess.Rows[0][field].ToString());
+                            }
+                        }
+                    }
+                    doc.MainDocumentPart.Document.Save();
+                    doc.Save();
+                    doc.Close();
+
+                    /// Create new docx
+                    var docX = new WmlDocument(fileResultName, memoryTemplate);
+                    sourceDoc.Add(new Source(docX, false));
+
+                    /// Merge docx
+                    if (docxBinary != null)
+                    {
+                        var docData = new WmlDocument("data" + i.ToString(), docxBinary);
+                        sourceDoc.Add(new Source(docData, false));
+                    }
+                    /// Build docx per page
+                    DocumentBuilder.BuildDocument(sourceDoc).WriteByteArray(msDoc);
+
+                    /// Add page docx to list
+                    var docDoc = new WmlDocument(fileResultName, msDoc);
+                    sources.Add(new Source(docDoc, true));
+
+                    msDoc.Close();
+                }
+
+                /// Build merge all pages
+                DocumentBuilder.BuildDocument(sources).WriteByteArray(msResponse);
+
+                var mmModel = new MailMergeModel
+                {
+                    bytesdata = msResponse.ToArray()
+                };
+
+                //Writefile
+                msResponse.Seek(0, SeekOrigin.Begin);
+                using (FileStream savefs = new FileStream(fileResult, FileMode.OpenOrCreate))
+                {
+                    msResponse.CopyTo(savefs);
+                    savefs.Flush();
+                }
+                msResponse.Close();
+
+                response.data = mmModel;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + ex?.InnerException.ToString());
             }
         }
     }

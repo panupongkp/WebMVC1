@@ -16,7 +16,7 @@ namespace OpenXmlHelpers.Word
     public static class OpenXmlWordHelpers
     {
         /// <summary>
-        /// Gets merge fields contained in a document, including the header and footer sections. 
+        /// Gets merge fields contained in a document, including the header and footer sections.
         /// </summary>
         /// <param name="mergeFieldName">Optional name for the merge fields to look for.</param>
         /// <returns>If a merge field name is specified, only merge fields with that name are returned. Otherwise, it returns all merge fields contained in the document.</returns>
@@ -94,7 +94,7 @@ namespace OpenXmlHelpers.Word
         }
 
         /// <summary>
-        /// Removes a merge field from the containing document and replaces it with the given text content. 
+        /// Removes a merge field from the containing document and replaces it with the given text content.
         /// </summary>
         /// <param name="replacementText">The content to replace the merge field with.</param>
         public static void ReplaceWithText(this FieldCode field, string replacementText)
@@ -111,7 +111,7 @@ namespace OpenXmlHelpers.Word
             rFldCode.Remove();
             rBegin.Remove();
             rSep.Remove();
-            rEnd.Remove();
+            rEnd?.Remove();
 
             Text t = rText.GetFirstChild<Text>();
             if (t != null)
@@ -121,7 +121,7 @@ namespace OpenXmlHelpers.Word
         }
 
         /// <summary>
-        /// Removes the merge fields from the containing document and replaces them with the given text content. 
+        /// Removes the merge fields from the containing document and replaces them with the given text content.
         /// </summary>
         /// <param name="replacementText">The content to replace the merge field with.</param>
         public static void ReplaceWithText(this IEnumerable<FieldCode> fields, string replacementText)
@@ -136,7 +136,7 @@ namespace OpenXmlHelpers.Word
         }
 
         /// <summary>
-        /// Removes the merge fields from the containing document and replaces them with the given texts. 
+        /// Removes the merge fields from the containing document and replaces them with the given texts.
         /// </summary>
         /// <param name="replacementTexts">The text values to replace the merge fields with</param>
         /// <param name="removeExcess">Optional value to indicate that excess merge fields are removes instead of replacing with blank values</param>
@@ -192,14 +192,14 @@ namespace OpenXmlHelpers.Word
         }
 
         #region ExtractText()
-        /// 
+        ///
         /// Extracts text from the Docx file.
-        /// 
+        ///
         /// Extracted text.
         public string ExtractText()
         {
             //if (docxFile != null)
-                //throw new Exception("Input file not specified.");
+            //throw new Exception("Input file not specified.");
 
             // Usually it is "/word/document.xml"
 
@@ -213,9 +213,9 @@ namespace OpenXmlHelpers.Word
         #endregion
 
         #region FindDocumentXmlLocation()
-        /// 
+        ///
         /// Gets location of the "document.xml" zip entry.
-        /// 
+        ///
         /// Location of the "document.xml".
         private string FindDocumentXmlLocation()
         {
@@ -249,9 +249,9 @@ namespace OpenXmlHelpers.Word
         #endregion
 
         #region ReadDocumentXml()
-        /// 
+        ///
         /// Reads "document.xml" zip entry.
-        /// 
+        ///
         /// Text containing in the document.
         private string ReadDocumentXml()
         {
@@ -281,9 +281,9 @@ namespace OpenXmlHelpers.Word
         #endregion
 
         #region ReadNode()
-        /// 
+        ///
         /// Reads content of the node and its nested childs.
-        /// 
+        ///
         /// XmlNode.
         /// Text containing in the node.
         private string ReadNode(XmlNode node)

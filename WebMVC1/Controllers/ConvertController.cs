@@ -13,11 +13,6 @@ namespace WebMVC1.Controllers
     [Route("api/[controller]")]
     public class ConvertController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<ConvertController> _logger;
         private IConvertService _convertService;
 
@@ -55,6 +50,96 @@ namespace WebMVC1.Controllers
             try
             {
                 var result = new { res = _convertService.ConvertRTFtoHTML(request) };
+                response = Wrap.ResponseOK(result);
+            }
+            catch (Exception ex)
+            {
+                response = Wrap.ResponseError(null, ex.Message);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("ShortenURL")]
+        public IActionResult ShortenURL(string request)
+        {
+            IActionResult response = null;
+            try
+            {
+                var result = new { res = _convertService.ShortenURL(request) };
+                response = Wrap.ResponseOK(result);
+            }
+            catch (Exception ex)
+            {
+                response = Wrap.ResponseError(null, ex.Message);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("PolicyInfo/{docID}/{docRequest}")]
+        public IActionResult PolicyInfo(string docID, string docRequest, string docType)
+        {
+            IActionResult response = null;
+            try
+            {
+                var result = new { };
+                response = Wrap.ResponseOK(result);
+            }
+            catch (Exception ex)
+            {
+                response = Wrap.ResponseError(null, ex.Message);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("PolicyInfo/{docID}/content")]
+        public IActionResult PolicyInfoContent(string docID, string docType)
+        {
+            IActionResult response = null;
+            try
+            {
+                var result = new { };
+                response = Wrap.ResponseOK(result);
+            }
+            catch (Exception ex)
+            {
+                response = Wrap.ResponseError(null, ex.Message);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("PolicyInfo/{docID}/documents")]
+        public IActionResult PolicyInfoDocuments(string docID)
+        {
+            IActionResult response = null;
+            try
+            {
+                var result = new { };
+                response = Wrap.ResponseOK(result);
+            }
+            catch (Exception ex)
+            {
+                response = Wrap.ResponseError(null, ex.Message);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("PolicyInfo/{docID}/deliveryInfo")]
+        public IActionResult PolicyInfoDelivery(string docID)
+        {
+            IActionResult response = null;
+            try
+            {
+                var result = new { };
                 response = Wrap.ResponseOK(result);
             }
             catch (Exception ex)

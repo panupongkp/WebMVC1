@@ -10,5 +10,6 @@ namespace WebMVC1.Services
     {
         ResponseModel ConvertHTMLtoRTF(InputRequestModel html);
         ResponseModel ConvertRTFtoHTML(InputRequestModel rtf);
+        ResponseModel ShortenURL(string url);
     }
 }
